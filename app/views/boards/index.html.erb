@@ -1,36 +1,44 @@
-
 <div class="container">
+  <%= link_to new_board_path, class: 'btn btn-sm btn-primary float-right', title: 'New Board' do %>
+    <i class="fa fa-plus"></i> New Board
+  <% end %>
+  <h2>Boards</h2>
+  <p id="notice"><%= notice %></p>
   <div class="row">
-    <p id="notice"><%= notice %></p>
     <% @boards.each do |board| %>
       <div class="col">
         <div class="card">
           <div class="card-header">
-            <%= link_to new_board_path, class: 'btn btn-sm btn-primary float-right', title: 'New Board' do %>
-            <i class="fa fa-plus"></i> New Board
-            <% end %>
-            <h5>Boards</h5>
+            <div class="card-title">
+              <%= link_to new_task_path, class: 'btn btn-sm btn-primary float-right', title: 'New Task' do %>
+                <i class="fa fa-plus"></i> New Task
+              <% end %>
+              <%= link_to board.title, board %>
+            </div>
           </div>
           <div class="card-body">
-            <h5 class="card-title">Boards Title</h5>
-            <td><%= board.title %></td>
-            <td><%= board.active %></td>
-            <td>
-              <%= link_to board, class: 'btn btn-sm btn-info', title: 'Show' do %>
-              <i class="fa fa-eye"></i>
-              <% end %>
-            </td>
-            <td>
-              <%= link_to edit_board_path(board), class: 'btn btn-sm btn-warning', title: 'Edit' do %>
-                <i class="fa fa-edit"></i>
-              <% end %>
-            </td>
-            <td>
-              <%= link_to board, class: 'btn btn-sm btn-danger', title: 'Destroy', method: :delete, data: { confirm: 'Are you sure?' } do %>
-              <i class="fa fa-trash"></i>
-              <% end %>
-            </td>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+            <div class="card-text">
+              <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Title</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">Stage</th>
+                  <th scope="col">Done</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% board.tasks.each do |board_task| %>
+                  <tr>
+                    <td><%= board_task.title %></td>
+                    <td><%= board_task.description %></td>
+                    <td>task estagio</td>
+                    <td>true</td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+            </div>
           </div>
         </div>
       </div>

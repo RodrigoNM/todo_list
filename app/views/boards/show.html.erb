@@ -10,5 +10,10 @@
   <%= @board.active %>
 </p>
 
-<%= link_to 'Edit', edit_board_path(@board) %> |
+<%= link_to @board, class: 'btn btn-sm btn-danger', title: 'Destroy', method: :delete, data: { confirm: 'Are you sure?' } do %>
+  <i class="fa fa-trash"></i>
+<% end %>
+<%= link_to edit_board_path(@board), class: 'btn btn-sm btn-warning', title: 'Edit' do %>
+  <i class="fa fa-edit"></i>
+<% end %>
 <%= link_to 'Back', boards_path %>
