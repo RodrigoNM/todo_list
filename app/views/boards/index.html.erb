@@ -1,29 +1,39 @@
-<p id="notice"><%= notice %></p>
 
-<h1>Boards</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Active</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
+<div class="container">
+  <div class="row">
+    <p id="notice"><%= notice %></p>
     <% @boards.each do |board| %>
-      <tr>
-        <td><%= board.title %></td>
-        <td><%= board.active %></td>
-        <td><%= link_to 'Show', board %></td>
-        <td><%= link_to 'Edit', edit_board_path(board) %></td>
-        <td><%= link_to 'Destroy', board, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+      <div class="col">
+        <div class="card">
+          <div class="card-header">
+            <%= link_to new_board_path, class: 'btn btn-sm btn-primary float-right', title: 'New Board' do %>
+            <i class="fa fa-plus"></i> New Board
+            <% end %>
+            <h5>Boards</h5>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Boards Title</h5>
+            <td><%= board.title %></td>
+            <td><%= board.active %></td>
+            <td>
+              <%= link_to board, class: 'btn btn-sm btn-info', title: 'Show' do %>
+              <i class="fa fa-eye"></i>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to edit_board_path(board), class: 'btn btn-sm btn-warning', title: 'Edit' do %>
+                <i class="fa fa-edit"></i>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to board, class: 'btn btn-sm btn-danger', title: 'Destroy', method: :delete, data: { confirm: 'Are you sure?' } do %>
+              <i class="fa fa-trash"></i>
+              <% end %>
+            </td>
+            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+          </div>
+        </div>
+      </div>
     <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Board', new_board_path %>
+  </div>
+</div>
