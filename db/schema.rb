@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 2019_06_20_214806) do
   create_table "tasks", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title"
     t.text "description"
+    t.boolean "done"
     t.boolean "active", default: true
     t.bigint "board_id"
     t.datetime "created_at", null: false

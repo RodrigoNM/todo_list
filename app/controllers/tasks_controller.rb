@@ -61,6 +61,16 @@ class TasksController < ApplicationController
     end
   end
 
+  def check
+    @task = Task.find(params[:task_id])
+    @task.update_column(:done, true)
+  end
+
+  def uncheck
+    @task = Task.find(params[:task_id])
+    @task.update_column(:done, false)
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_task
