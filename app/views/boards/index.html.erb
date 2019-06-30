@@ -1,16 +1,24 @@
-<div class="container">
-  <%= link_to new_board_path, class: 'btn btn-sm btn-primary float-right', title: 'New Board' do %>
+<div class="container mt-3">
+  <%= link_to stages_path, class: 'btn btn-sm btn-primary float-right', title: 'Stages' do %>
+    <i class="fa fa-eye"></i> Stages
+  <% end %>
+  <%= link_to new_board_path, remote: true, data: { target: '#modal-holder', toggle: 'modal' }, class: 'btn btn-sm btn-primary mr-2 float-right', title: 'New Board' do %>
     <i class="fa fa-plus"></i> New Board
   <% end %>
   <h2>Boards</h2>
-  <p id="notice"><%= notice %></p>
+  <% flash.each do |type, message| %>
+    <div class="alert <%= bootstrap_class_for(type) %> alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <%= message %>
+    </div>
+  <% end %>
   <div class="row">
     <% @boards.each do |board| %>
-      <div class="col">
+      <div class="col-md-4 mb-3">
         <div class="card">
           <div class="card-header">
             <div class="card-title">
-              <%= link_to new_task_path, class: 'btn btn-sm btn-primary float-right', title: 'New Task' do %>
+              <%= link_to new_board_task_path(board.id), remote: true, data: { target: '#modal-holder', toggle: 'modal' }, class: 'btn btn-sm btn-primary float-right', title: 'New Task' do %>
                 <i class="fa fa-plus"></i> New Task
               <% end %>
               <%= link_to board.title, board %>
@@ -18,31 +26,35 @@
           </div>
           <div class="card-body">
             <div class="card-text">
-              <% board.tasks.each do |board_task| %>
+              <% board.tasks.where(active: true).each do |board_task| %>
                 <div class="accordion" id="accordionExample">
                   <div class="card">
                     <div class="card-header" id="headingOne">
-                      <%= link_to board_task, class: 'btn btn-sm btn-danger float-right', title: 'Destroy', method: :delete, data: { confirm: 'Are you sure?' } do %>
-                        <i class="fa fa-trash"></i>
-                      <% end %>
-                      <% if board_task.done? %>
-                        <%= link_to task_check_path(controller: 'tasks', action: 'uncheck', task_id: board_task.id), class: 'btn btn-sm btn-danger float-left', title: 'Undo' do %>
-                          <i class="fa fa-undo"></i>
+                      <div class="btn-group-vertical float-right">
+                        <%= link_to board_task_path(board.id, board_task.id), class: 'btn btn-sm btn-danger', title: 'Destroy', method: :delete, data: { confirm: 'Are you sure?' } do %>
+                          <i class="fa fa-trash"></i>
                         <% end %>
-                      <% else %>
-                        <%= link_to task_check_path(controller: 'tasks', action: 'check', task_id: board_task.id), class: 'btn btn-sm btn-success float-left', title: 'Check' do %>
+                        <%= link_to edit_board_task_path(board.id, board_task.id), remote: true, data: { target: '#modal-holder', toggle: 'modal' }, class: 'btn btn-sm btn-warning', title: 'Edit' do %>
+                          <i class="fa fa-pencil"></i>
+                        <% end %>
+                      </div>
+                      <% if board_task.done? %>
+                        <%= link_to board_task_uncheck_path(board.id, board_task.id), class: 'btn btn-sm btn-success float-left', title: 'Undo' do %>
                           <i class="fa fa-check"></i>
                         <% end %>
-                      <% end %>
-                      <% if board_task.done? %>
-                      <button class="btn btn-link" style="text-decoration: line-through" type="button" data-toggle="collapse" data-target="#collapse<%=board_task.id.to_s%>" aria-expanded="false" aria-controls="collapse<%=board_task.id.to_s%>">
-                        <%= board_task.title %>
-                      </button>
                       <% else %>
-                      <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse<%=board_task.id.to_s%>" aria-expanded="false" aria-controls="collapse<%=board_task.id.to_s%>">
-                        <%= board_task.title %>
-                      </button>
+                        <%= link_to board_task_check_path(board.id, board_task.id), class: 'btn btn-sm btn-danger float-left', title: 'Check' do %>
+                          <i class="fa fa-close"></i>
+                        <% end %>
                       <% end %>
+                      <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse<%=board_task.id.to_s%>" aria-expanded="false" aria-controls="collapse<%=board_task.id.to_s%>">
+                        <% if board_task.done? %>
+                          <s><%=board_task.title%></s>
+                        <% else %>
+                          <%= board_task.title %>
+                        <% end %>
+                      </button>
+                      <p><%= board_task.stage.name %></p>
                     </div>
                     <div id="collapse<%=board_task.id.to_s%>" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                       <div class="card-body">
@@ -59,3 +71,4 @@
     <% end %>
   </div>
 </div>
+<div id="modal-holder"></div>
