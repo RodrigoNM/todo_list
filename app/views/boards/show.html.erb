@@ -1,19 +1,75 @@
-<p id="notice"><%= notice %></p>
+<div class="container mt-3">
+  <% flash.each do |type, message| %>
+    <div class="alert <%= bootstrap_class_for(type) %> alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <%= message %>
+    </div>
+  <% end %>
+  <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <%= link_to @board, class: 'btn btn-sm btn-danger pull-right', title: 'Destroy', method: :delete, data: { confirm: 'Are you sure?' } do %>
+                <i class="fa fa-trash"></i>
+              <% end %>
+              <%= link_to edit_board_path(@board), remote: true, data: { target: '#modal-holder', toggle: 'modal' }, class: 'btn btn-sm btn-warning pull-right', title: 'Edit' do %>
+                <i class="fa fa-edit"></i>
+              <% end %>
+              <%= @board.title %>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="card-text">
 
-<p>
-  <strong>Title:</strong>
-  <%= @board.title %>
-</p>
-
-<p>
-  <strong>Active:</strong>
-  <%= @board.active %>
-</p>
-
-<%= link_to @board, class: 'btn btn-sm btn-danger', title: 'Destroy', method: :delete, data: { confirm: 'Are you sure?' } do %>
-  <i class="fa fa-trash"></i>
-<% end %>
-<%= link_to edit_board_path(@board), class: 'btn btn-sm btn-warning', title: 'Edit' do %>
-  <i class="fa fa-edit"></i>
-<% end %>
-<%= link_to 'Back', boards_path %>
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Criado em</th>
+                    <th>Titulo</th>
+                    <th>Descrição</th>
+                    <th>Estágio</th>
+                    <th>Opções</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @board.tasks.where(active: true).each do |board_task| %>
+                  <tr>
+                    <th><%= board_task.created_at.strftime('%d/%m/%Y - %H:%M') %></th>
+                    <td>
+                      <% if board_task.done? %>
+                        <%= link_to board_task_uncheck_path(@board.id, board_task.id), class: 'btn btn-sm btn-success float-left', title: 'Undo' do %>
+                          <i class="fa fa-check"></i>
+                        <% end %>
+                      <% else %>
+                        <%= link_to board_task_check_path(@board.id, board_task.id), class: 'btn btn-sm btn-danger float-left', title: 'Check' do %>
+                          <i class="fa fa-close"></i>
+                        <% end %>
+                      <% end %>
+                      <% if board_task.done? %>
+                        <s><%= board_task.title %></s>
+                      <% else %>
+                        <%= board_task.title %>
+                      <% end %>
+                    </td>
+                    <td><%= board_task.description %></td>
+                    <td> <%= board_task.stage.name %> </td>
+                    <td>
+                      <%= link_to board_task_path(@board.id, board_task.id), class: 'btn btn-sm btn-danger', title: 'Destroy', method: :delete, data: { confirm: 'Are you sure?' } do %>
+                        <i class="fa fa-trash"></i>
+                      <% end %>
+                      <%= link_to edit_board_task_path(@board.id, board_task.id), remote: true, data: { target: '#modal-holder', toggle: 'modal' }, class: 'btn btn-sm btn-warning', title: 'Edit' do %>
+                        <i class="fa fa-pencil"></i>
+                      <% end %>
+                    </td>
+                  </tr>
+                  <% end %>
+                </tbody>
+              </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="modal-holder"></div
