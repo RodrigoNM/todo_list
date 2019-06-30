@@ -1,0 +1,52 @@
+<div class="container mt-3">
+  <% flash.each do |type, message| %>
+    <div class="alert <%= bootstrap_class_for(type) %> alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <%= message %>
+    </div>
+  <% end %>
+  <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <%= link_to new_stage_path, remote: true, data: { target: '#modal-holder', toggle: 'modal' }, class: "btn btn-sm btn-primary float-right" do %>
+                <i class="fa fa-plus"></i> New Stage
+              <% end %>
+              Stages
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="card-text">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Opções</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @stages.each do |stage| %>
+                  <tr>
+                    <td><%= stage.id %></td>
+                    <td><%= stage.name %></td>
+                    <td>
+                      <%= link_to edit_stage_path(stage), remote: true, data: { target: '#modal-holder', toggle: 'modal' }, class: "btn btn-sm btn-warning" do %>
+                        <i class="fa fa-pencil"></i>
+                      <% end %>
+                      <%= link_to stage, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-danger" do %>
+                        <i class="fa fa-trash"></i>
+                      <% end %>
+                    </td>
+                  </tr>
+                  <% end %>
+                </tbody>
+              </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="modal-holder"></div
