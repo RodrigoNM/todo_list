@@ -4,7 +4,7 @@ class BoardsController < ApplicationController
   # GET /boards
   # GET /boards.json
   def index
-    @boards = Board.all
+    @boards = Board.where(active: true)
   end
 
   # GET /boards/1
@@ -15,6 +15,9 @@ class BoardsController < ApplicationController
   # GET /boards/new
   def new
     @board = Board.new
+    respond_to do |format|
+      format.js
+    end
   end
 
   # GET /boards/1/edit
@@ -54,9 +57,9 @@ class BoardsController < ApplicationController
   # DELETE /boards/1
   # DELETE /boards/1.json
   def destroy
-    @board.destroy
+    @board.update_attribute(:active, false)
     respond_to do |format|
-      format.html { redirect_to boards_url, notice: 'Board was successfully destroyed.' }
+      format.html { redirect_to root_path, notice: 'Board was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
