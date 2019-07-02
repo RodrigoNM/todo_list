@@ -1,10 +1,4 @@
 <div class="container mt-3">
-  <%= link_to stages_path, class: 'btn btn-sm btn-primary float-right', title: 'Stages' do %>
-    <i class="fa fa-eye"></i> Stages
-  <% end %>
-  <%= link_to new_board_path, remote: true, data: { target: '#modal-holder', toggle: 'modal' }, class: 'btn btn-sm btn-primary mr-2 float-right', title: 'New Board' do %>
-    <i class="fa fa-plus"></i> New Board
-  <% end %>
   <h2>Boards</h2>
   <% flash.each do |type, message| %>
     <div class="alert <%= bootstrap_class_for(type) %> alert-dismissible" role="alert">
