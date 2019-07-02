@@ -28,14 +28,13 @@ class TasksController < ApplicationController
   # POST /tasks.json
   def create
     @task = Task.new(task_params)
-    byebug
     respond_to do |format|
       if @task.save
         format.html { redirect_to root_path, notice: 'Task was successfully created.' }
         format.json { head :no_content }
       else
-        format.html { redirect_to root_path, notice: 'Task was successfully created.' }
-        format.json { head :no_content }
+        format.html { redirect_to root_path, error: 'Oops an error occurred!' }
+        format.json { render json: @task.errors, status: :unprocessable_entity }
       end
     end
   end
