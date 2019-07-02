@@ -29,7 +29,12 @@
                     <th>Titulo</th>
                     <th>Descrição</th>
                     <th>Estágio</th>
-                    <th>Opções</th>
+                    <th>
+                      Opções
+                      <%= link_to new_board_task_path(@board), remote: true, data: { target: '#modal-holder', toggle: 'modal' }, class: 'btn btn-sm btn-primary float-right', title: 'New Task' do %>
+                        <i class="fa fa-plus"></i> New Task
+                      <% end %>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
