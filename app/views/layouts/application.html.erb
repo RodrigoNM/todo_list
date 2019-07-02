@@ -15,6 +15,20 @@
   </head>
 
   <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="navTop">
+      <a class="navbar-brand" href="/">TODO LIST</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <%= link_to new_board_path, remote: true, data: { target: '#modal-holder', toggle: 'modal' }, class: 'btn btn-sm btn-light mr-2 float-right', title: 'New Board' do %>
+          <i class="fa fa-plus"></i> New Board
+        <% end %>
+        <%= link_to stages_path, class: 'btn btn-sm btn-light float-right', title: 'Stages' do %>
+          <i class="fa fa-eye"></i> Stages
+        <% end %>
+      </div>
+    </nav>
     <%= yield %>
   </body>
 </html>
